@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  database:
+    image: postgres
+    container_name: fs-postgres
+    environment:
+      - POSTGRES_DB=flight_service
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - 5432:5432
+
+  bpm:
+    image: camunda/camunda-bpm-platform
+    container_name: fs-camunda
+    depends_on:
+      - database
+    environment:
+      - DB_DRIVER=org.postgresql.Driver
+      - DB_URL=jdbc:postgresql://database:5432/flight_service?currentSchema=camunda
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=postgres
+      - WAIT_FOR=database:5432
+    ports:
+      - 8080:8080

@@ -1,0 +1,30 @@
+server:
+  port: 8888
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/bt_flight_service
+    driverClassName: org.postgresql.Driver
+    username: postgres
+    password: postgres
+  liquibase:
+    change-log: classpath:db/changelog/changelog-master.xml
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            # Фикс совместной работы hibernate и postgres. Подробнее тут https://github.com/spring-projects/spring-boot/issues/12007
+            non_contextual_creation: true
+    generate-ddl: true
+
+#  axonserver:
+#    clientId: 6279@macbook.local
+#  eventhandling:
+#    processors:
+#      ru.mbannikov.flightservice.camunda.flightregistration:
+#        mode: subscribing
