@@ -1,6 +1,6 @@
 package ru.mbannikov.flightservice.domain.order.model
 
-enum class FlightOrderState {
+enum class OrderState {
     INITIAL,
     CONFIRMED,
     AUTHORIZED,

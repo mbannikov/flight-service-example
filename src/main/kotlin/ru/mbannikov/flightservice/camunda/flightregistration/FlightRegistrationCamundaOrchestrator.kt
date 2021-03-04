@@ -1,6 +1,5 @@
 package ru.mbannikov.flightservice.camunda.flightregistration
 
-import org.axonframework.eventhandling.EventHandler
 import org.springframework.stereotype.Component
 import org.springframework.web.client.RestTemplate
 import ru.mbannikov.flightservice.camunda.CamundaUtils.toValue
@@ -11,10 +10,11 @@ import ru.mbannikov.flightservice.camunda.flightregistration.CamundaConstants.NE
 import ru.mbannikov.flightservice.camunda.flightregistration.CamundaConstants.ORDER_CONFIRMED_MESSAGE
 import ru.mbannikov.flightservice.camunda.flightregistration.CamundaConstants.ORDER_ID_CONTEXT_VARIABLE
 import ru.mbannikov.flightservice.camunda.flightregistration.CamundaConstants.PROCESS_KEY
-import ru.mbannikov.flightservice.domain.order.api.FlightOrderAuthorizedEvent
-import ru.mbannikov.flightservice.domain.order.api.FlightOrderConfirmedEvent
-import ru.mbannikov.flightservice.domain.order.api.FlightOrderCreatedEvent
-import ru.mbannikov.flightservice.domain.order.api.FlightOrderNotAuthorizedEvent
+import ru.mbannikov.flightservice.domain.order.api.OrderAuthorizedEvent
+import ru.mbannikov.flightservice.domain.order.api.OrderConfirmedEvent
+import ru.mbannikov.flightservice.domain.order.api.OrderCreatedEvent
+import ru.mbannikov.flightservice.domain.order.api.OrderNotAuthorizedEvent
+import ru.mbannikov.mescofe.eventhandling.annotation.EventHandler
 
 @Component
 class FlightRegistrationCamundaOrchestrator(
@@ -23,23 +23,23 @@ class FlightRegistrationCamundaOrchestrator(
     private val camundaClient = CamundaClient(baseUrl = "http://localhost:8080", restTemplate = camundaRestTemplate)
 
     @EventHandler
-    fun on(e: FlightOrderCreatedEvent) {
+    fun on(e: OrderCreatedEvent) {
         val needAuthorization = true // TODO: get from company settings
         startProcess(orderId = e.orderId, needAuthorization = needAuthorization)
     }
 
     @EventHandler
-    fun on(e: FlightOrderConfirmedEvent) {
+    fun on(e: OrderConfirmedEvent) {
         sendMessageOrderConfirmed(orderId = e.orderId)
     }
 
     @EventHandler
-    fun on(e: FlightOrderAuthorizedEvent) {
+    fun on(e: OrderAuthorizedEvent) {
         sendMessageGotAuthorizeDecision(e.orderId, isAuthorized = true)
     }
 
     @EventHandler
-    fun on(e: FlightOrderNotAuthorizedEvent) {
+    fun on(e: OrderNotAuthorizedEvent) {
         sendMessageGotAuthorizeDecision(e.orderId, isAuthorized = false)
     }
 

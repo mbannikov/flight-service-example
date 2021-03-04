@@ -2,8 +2,9 @@ server:
   port: 8888
 
 spring:
+  application.name: flight-service
   datasource:
-    url: jdbc:postgresql://localhost:5432/bt_flight_service
+    url: jdbc:postgresql://localhost:5432/flight_service
     driverClassName: org.postgresql.Driver
     username: postgres
     password: postgres
@@ -21,10 +22,3 @@ spring:
             # Фикс совместной работы hibernate и postgres. Подробнее тут https://github.com/spring-projects/spring-boot/issues/12007
             non_contextual_creation: true
     generate-ddl: true
-
-#  axonserver:
-#    clientId: 6279@macbook.local
-#  eventhandling:
-#    processors:
-#      ru.mbannikov.flightservice.camunda.flightregistration:
-#        mode: subscribing

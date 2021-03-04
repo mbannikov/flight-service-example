@@ -1,39 +1,40 @@
 package ru.mbannikov.flightservice.domain.order.api
 
+import ru.mbannikov.flightservice.domain.Event
 import ru.mbannikov.flightservice.domain.order.model.BookingInfo
 import ru.mbannikov.flightservice.domain.order.model.FlightInfo
 import java.util.UUID
 
-abstract class FlightOrderEvent(
-    open val orderId: String
-) : Event
+interface OrderEvent : Event {
+    val orderId: String
+}
 
-data class FlightOrderCreatedEvent(
+data class OrderCreatedEvent(
     override val orderId: String,
     val tripId: String,
     val travelerId: UUID,
     val flightInfo: FlightInfo
-) : FlightOrderEvent(orderId)
+) : OrderEvent
 
-data class FlightOrderConfirmedEvent(
+data class OrderConfirmedEvent(
     override val orderId: String
-) : FlightOrderEvent(orderId)
+) : OrderEvent
 
-data class FlightOrderAuthorizedEvent(
+data class OrderAuthorizedEvent(
     override val orderId: String,
     val authorizerId: UUID
-) : FlightOrderEvent(orderId)
+) : OrderEvent
 
-data class FlightOrderNotAuthorizedEvent(
+data class OrderNotAuthorizedEvent(
     override val orderId: String,
     val authorizerId: UUID
-) : FlightOrderEvent(orderId)
+) : OrderEvent
 
-data class FlightOrderBookedEvent(
+data class OrderBookedEvent(
     override val orderId: String,
     val bookingInfo: BookingInfo
-) : FlightOrderEvent(orderId)
+) : OrderEvent
 
-data class FlightOrderPayedEvent(
+data class OrderPayedEvent(
     override val orderId: String
-) : FlightOrderEvent(orderId)
+) : OrderEvent

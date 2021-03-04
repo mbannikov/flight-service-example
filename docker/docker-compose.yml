@@ -26,3 +26,10 @@ services:
       - WAIT_FOR=database:5432
     ports:
       - 8080:8080
+
+  amqp:
+    image: rabbitmq:3-management
+    container_name: fs-rabbitmq
+    ports:
+      - 15672:15672
+      - 5672:5672

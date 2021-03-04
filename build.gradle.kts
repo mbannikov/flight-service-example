@@ -20,6 +20,7 @@ configurations {
 
 repositories {
     mavenCentral()
+    mavenLocal()
 }
 
 dependencies {
@@ -34,8 +35,9 @@ dependencies {
     implementation("org.camunda.spin:camunda-spin-core:1.9.0")
     implementation("org.camunda.spin:camunda-spin-dataformat-json-jackson:1.9.0")
     implementation("org.camunda.bpm:camunda-external-task-client:1.3.1")
-    implementation("org.axonframework:axon-spring-boot-starter:4.4.3")
-    implementation("org.axonframework.extensions.kotlin:axon-kotlin:0.1.0")
+    implementation("ru.mbannikov.mescofe:messaging:1.0.0")
+    implementation("ru.mbannikov.mescofe:spring:1.0.0")
+    implementation("ru.mbannikov.mescofe:spring-boot-starter:1.0.0")
 
     runtimeOnly("org.postgresql:postgresql")
 
@@ -45,7 +47,6 @@ dependencies {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
     }
     testImplementation("org.springframework.amqp:spring-rabbit-test")
-    testImplementation("org.axonframework:axon-test:4.4.3")
 }
 
 tasks.withType<Test> {
